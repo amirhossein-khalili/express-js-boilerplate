@@ -1,39 +1,69 @@
 import Product from './product.model.js';
+class ProductController {
+  static async findAll(req, res) {
+    try {
+      // Options for pagination
+      const page = parseInt(req.query.page);
+      const limit = parseInt(req.query.limit);
+      const options = { page: page, limit: limit };
 
-export default {
-  async findAll(req, res) {
-    // options for the pagination
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-    const options = { page: page, limit: limit };
-    console.log(options);
-    // find products and paginate
-    const products = await Product.paginate({}, options);
+      // Find products and paginate
+      const products = await Product.paginate({}, options);
 
-    // respond to the user
-    res.json({ products: products });
-  },
-  async create(req, res) {
-    const newProduct = new Product(req.body);
-    await newProduct.save();
-    res.status(201).json(newProduct);
-  },
-  async find(req, res) {
-    const product = await Product.findById(req.params.id);
+      // Respond to the user
+      res.json({ products });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json('an error occurred please try again later');
+    }
+  }
 
-    if (!product)
-      return res.status(404).json({
-        message: 'The Product was not found',
+  static async create(req, res) {
+    try {
+      const newProduct = new Product(req.body);
+      await newProduct.save();
+      res.status(201).json(newProduct);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json('an error occurred please try again later');
+    }
+  }
+
+  static async find(req, res) {
+    try {
+      const product = await Product.findById(req.params.id);
+      if (!product)
+        return res.status(404).json({
+          message: 'The Product was not found',
+        });
+      res.json(product);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json('an error occurred please try again later');
+    }
+  }
+
+  static async edit(req, res) {
+    try {
+      const productUpdated = await Product.findByIdAndUpdate(req.params.id, req.body, {
+        new: false,
       });
+      res.json(productUpdated);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json('an error occurred please try again later');
+    }
+  }
 
-    res.json(product);
-  },
-  async edit(req, res) {
-    const productUpdated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: false });
-    res.json(productUpdated);
-  },
-  async destroy(req, res) {
-    const productRemoved = await Product.findByIdAndDelete(req.params.id);
-    res.json(productRemoved);
-  },
-};
+  static async destroy(req, res) {
+    try {
+      const productRemoved = await Product.findByIdAndDelete(req.params.id);
+      res.json(productRemoved);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json('an error occurred please try again later');
+    }
+  }
+}
+
+export default ProductController;
