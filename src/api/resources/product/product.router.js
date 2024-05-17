@@ -15,5 +15,3 @@ productRouter
   .get(ProductController.find)
   .put(ProductController.edit)
   .delete(ProductController.destroy);
-
-// export default productRouter;
