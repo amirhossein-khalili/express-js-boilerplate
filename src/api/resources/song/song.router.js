@@ -10,8 +10,8 @@ songRouter
   .get(SongController.findAll)
   .post(validateSchema(newSongSchema), SongController.create);
 
-// songRouter
-//   .route('/:id')
-//   .get(SongController.find)
-//   .put(SongController.edit)
-//   .delete(SongController.destroy);
+songRouter
+  .route('/:id')
+  .get(SongController.findOne)
+  .patch(validateSchema(newSongSchema), SongController.edit)
+  .delete(SongController.destroy);
