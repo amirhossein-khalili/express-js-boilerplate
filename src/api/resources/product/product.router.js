@@ -1,11 +1,19 @@
 import { Router } from 'express';
-import productController from './product.controller.js';
+import ProductController from './product.controller.js';
+import validateSchema from '../../../utils.js';
+import newProductschema from './product.errorhandler.js';
+
 export const productRouter = Router();
 
-productRouter.get('', productController.findAll);
-productRouter.post('', productController.create);
-productRouter.get('/:id', productController.find);
-productRouter.put('/:id', productController.edit);
-productRouter.delete('/:id', productController.destroy);
+productRouter
+  .route('')
+  .get(ProductController.findAll)
+  .post(validateSchema(newProductschema), ProductController.create);
+
+productRouter
+  .route('/:id')
+  .get(ProductController.find)
+  .put(ProductController.edit)
+  .delete(ProductController.destroy);
 
 // export default productRouter;
