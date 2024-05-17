@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import paginate from 'mongoose-paginate-v2';
+import { Schema, model } from 'mongoose';
+import mongoosePagination from 'mongoose-paginate-v2';
 
-const songSchema = new mongoose.Schema({
+const songSchema = new Schema({
   title: {
     type: String,
     require: [true, 'Song must have a title'],
@@ -18,8 +18,6 @@ const songSchema = new mongoose.Schema({
   },
 });
 
-songSchema.plugin(paginate);
+songSchema.plugin(mongoosePagination);
 
-export default mongoose.model('Song', songSchema);
-
-// export const Song = mongoose.model('Song', songSchema);
+export default model('Song', songSchema);
