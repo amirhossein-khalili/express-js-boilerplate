@@ -14,7 +14,6 @@ class Server {
     this.initViewEngin();
     this.initExpressMiddleware();
     this.initRoutes();
-    this.initSwagger();
     this.start();
   }
 
@@ -38,13 +37,24 @@ class Server {
     app.get('/', (req, res) => {
       res.send({ message: 'welcome to the our application' });
     });
+
+    // Serve Swagger UI at /api-docs endpoint
+    const swaggerOptions = {
+      swaggerDefinition: swaggerConfig,
+      apis: ['./api/resources/*/*.swagger.yaml'],
+    };
+    const swaggerSpec = swaggerJsdoc(swaggerOptions);
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+    // Error handling middleware
     app.use((req, res, next) => {
       const error = new Error('Not found');
-      error.message = 'Invalid route';
       error.status = 404;
       next(error);
     });
-    app.use((req, res, next) => {
+
+    // Error handling middleware
+    app.use((error, req, res, next) => {
       res.status(error.status || 500);
       return res.json({ error: { message: error.message } });
     });
@@ -52,16 +62,6 @@ class Server {
 
   initDB() {
     connect(); //connect express app to database
-  }
-
-  initSwagger() {
-    // Swagger setup
-    const swaggerOptions = {
-      swaggerDefinition: swaggerConfig,
-      apis: ['./api/resources/*/*.swagger.yaml'],
-    };
-    const swaggerSpec = swaggerJsdoc(swaggerOptions);
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   }
 }
 
