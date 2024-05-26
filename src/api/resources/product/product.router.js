@@ -12,6 +12,6 @@ productRouter
 
 productRouter
   .route('/:id')
-  .get(ProductController.find)
+  .get(ProductController.findOne)
   .put(ProductController.edit)
   .delete(ProductController.destroy);

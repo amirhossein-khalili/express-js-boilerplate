@@ -29,7 +29,7 @@ class ProductController {
     }
   }
 
-  static async find(req, res) {
+  static async findOne(req, res) {
     try {
       const product = await Product.findById(req.params.id);
       if (!product)
