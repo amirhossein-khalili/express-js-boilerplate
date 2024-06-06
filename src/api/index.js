@@ -1,7 +1,9 @@
 import express from 'express';
-import { songRouter } from './resources/song/song.router.js';
-import { productRouter } from './resources/product/product.router.js';
+import SongRouter from './resources/song/song.router.js';
+import AuthRouter from './resources/auth/auth.router.js';
+import UserRouter from './resources/user/user.router.js';
 
 export const restRouter = express.Router();
-restRouter.use('/songs', songRouter);
-restRouter.use('/products', productRouter);
+restRouter.use('/auth', AuthRouter);
+restRouter.use('/songs', SongRouter);
+restRouter.use('/users', UserRouter);

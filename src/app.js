@@ -2,9 +2,14 @@ import express from 'express';
 import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import passport from 'passport';
+import dotenv, { config } from 'dotenv';
+dotenv.config();
+
 import swaggerConfig from './config/swagger.js';
 import { connect } from './config/db.js';
 import { restRouter } from './api/index.js';
+import PassportMiddleware from './api/middlewares/passportjwt.middleware.js';
 
 const app = express();
 
@@ -29,6 +34,8 @@ class Server {
     app.use(logger('dev'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(passport.initialize());
+    PassportMiddleware.configJWTStrategy();
   }
 
   initRoutes() {

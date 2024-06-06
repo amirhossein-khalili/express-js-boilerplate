@@ -1,17 +1,26 @@
 import { Router } from 'express';
 import SongController from './song.controller.js';
 import validateSchema from '../../../utils.js';
-import newSongSchema from './song.errorhandler.js';
+import newSongSchema from './song.validation.js';
 
-export const songRouter = Router();
+class SongRouter {
+  constructor() {
+    this.router = Router();
+    this.initializeRoutes();
+  }
 
-songRouter
-  .route('')
-  .get(SongController.findAll)
-  .post(validateSchema(newSongSchema), SongController.create);
+  initializeRoutes() {
+    this.router
+      .route('/')
+      .get(SongController.findAll)
+      .post(validateSchema(newSongSchema), SongController.create);
 
-songRouter
-  .route('/:id')
-  .get(SongController.findOne)
-  .patch(validateSchema(newSongSchema), SongController.edit)
-  .delete(SongController.destroy);
+    this.router
+      .route('/:id')
+      .get(SongController.findOne)
+      .patch(validateSchema(newSongSchema), SongController.edit)
+      .delete(SongController.destroy);
+  }
+}
+
+export default new SongRouter().router;
