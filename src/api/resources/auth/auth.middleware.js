@@ -7,7 +7,7 @@ class AuthMiddleware {
       const user = await User.find({ email: email });
 
       if (user)
-        return res.status(403).send({ error: 'you have already signup , please use sign in ' });
+        return res.status(409).send({ error: 'you have already signup , please use sign in ' });
       else return next();
     } catch (error) {
       console.error(error);

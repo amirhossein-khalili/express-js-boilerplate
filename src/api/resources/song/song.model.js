@@ -19,5 +19,4 @@ const songSchema = new Schema({
 });
 
 songSchema.plugin(mongoosePagination);
-
 export default model('Song', songSchema);
