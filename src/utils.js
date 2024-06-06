@@ -1,3 +1,4 @@
+// this function validates the joi schema
 const validateSchema = (schema) => {
   return (req, res, next) => {
     const { error, value } = schema.validate(req.body, { abortEarly: false });
