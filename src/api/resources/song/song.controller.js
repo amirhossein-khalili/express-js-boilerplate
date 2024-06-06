@@ -1,6 +1,9 @@
 import Song from './song.model.js';
 
 class SongController {
+  static selectionSong = 'title url rating';
+  static selectionSongs = 'title url rating';
+
   static async create(req, res, next) {
     try {
       const newSong = new Song(req.body);
@@ -18,6 +21,7 @@ class SongController {
       const options = {
         page: parseInt(page, 10) || 1,
         limit: parseInt(perPage, 10) || 10,
+        select: SongController.selectionSongs,
       };
 
       const songs = await Song.paginate({}, options);
@@ -31,7 +35,7 @@ class SongController {
 
   static async findOne(req, res, next) {
     try {
-      const song = await Song.findById(req.params.id);
+      const song = await Song.findById(req.params.id).select(SongController.selectionSongs);
       if (!song) return res.status(404).json({ message: 'song not found ' });
       return res.json(song);
     } catch (error) {
@@ -40,7 +44,7 @@ class SongController {
     }
   }
 
-  static async edit(req, res) {
+  static async edit(req, res, next) {
     try {
       const songUpdated = await Song.findByIdAndUpdate(req.params.id, req.body, {
         new: false,

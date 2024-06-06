@@ -9,7 +9,7 @@ dotenv.config();
 import swaggerConfig from './config/swagger.js';
 import { connect } from './config/db.js';
 import { restRouter } from './api/index.js';
-import PassportMiddleware from './api/middlewares/passportjwt.middleware.js';
+import PassportMiddleware from './middlewares/passportjwt.middleware.js';
 
 const app = express();
 

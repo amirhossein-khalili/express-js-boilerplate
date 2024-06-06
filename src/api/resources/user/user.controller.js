@@ -1,6 +1,9 @@
 import User from './user.model.js';
 
 class UserController {
+  static selectionUser = 'firstName lastName email';
+  static selectionUsers = 'firstName lastName email';
+
   static async create(req, res, next) {
     try {
       const newUser = await User.create({
@@ -23,6 +26,7 @@ class UserController {
       const options = {
         page: parseInt(page, 10) || 1,
         limit: parseInt(perPage, 10) || 10,
+        select: UserController.selectionUsers,
       };
 
       const users = await User.paginate({}, options);
@@ -36,7 +40,7 @@ class UserController {
 
   static async findOne(req, res, next) {
     try {
-      const user = await User.findById(req.params.id);
+      const user = await User.findById(req.params.id).select(UserController.selectionUsers);
       if (!user) return res.status(404).json({ message: 'user not found ' });
       return res.json(user);
     } catch (error) {

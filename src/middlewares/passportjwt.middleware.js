@@ -1,6 +1,6 @@
 import passport from 'passport';
 import PassportJwt from 'passport-jwt';
-import User from '../resources/user/user.model.js';
+import User from '../api/resources/user/user.model.js';
 
 class PassportMiddleware {
   static async configJWTStrategy() {
