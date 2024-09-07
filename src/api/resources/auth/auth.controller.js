@@ -2,7 +2,7 @@ import User from '../user/user.model.js';
 import AuthService from './auth.service.js';
 
 class AuthController {
-  static async signup(req, res, next) {
+  static async signup(req, res) {
     try {
       const newUser = await User.create({
         firstName: req.body.firstName,
@@ -11,14 +11,16 @@ class AuthController {
         password: AuthService.encryptPassword(req.body.password),
       });
 
-      res.status(201).json({ success: true });
+      if (newUser)
+        return res.status(201).json({ success: true, message: 'signed up successfully' });
+      else return res.status(500).json({ success: false, message: 'internal server error ' });
     } catch (error) {
       console.error(error);
       res.status(500).json('an error occurred please try again later');
     }
   }
 
-  static async login(req, res, next) {
+  static async login(req, res) {
     try {
       const email = req.body.email;
       const password = req.body.password;
@@ -26,7 +28,8 @@ class AuthController {
       const user = await User.findOne({ email: email });
       if (!user) return res.status(401).send({ message: 'please try signup first' });
 
-      const authenticated = AuthService.compatePassword(password, user.password);
+      const authenticated = AuthService.comparePassword(password, user.password);
+
       if (!authenticated) return res.status(401).send({ message: 'invalid password' });
 
       const token = AuthService.generateToken(user);
