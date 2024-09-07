@@ -8,7 +8,7 @@ class AuthService {
     return hashed;
   }
 
-  compatePassword(plainText, encrypedPassword) {
+  comparePassword(plainText, encrypedPassword) {
     return bcrypt.compareSync(plainText, encrypedPassword);
   }
 
