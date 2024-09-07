@@ -1,6 +1,6 @@
 import User from './user.model.js';
 
-import MainCrudTemplateController from '../class.templates/index.js';
+import MainCrudTemplateController from '../class.templates/controller/mainCrud.template.controller.js';
 
 class UserController extends MainCrudTemplateController {}
 

@@ -1,5 +1,5 @@
 import Song from './song.model.js';
-import MainCrudTemplateController from '../class.templates/index.js';
+import MainCrudTemplateController from '../class.templates/controller/mainCrud.template.controller.js';
 
 class SongController extends MainCrudTemplateController {}
 
