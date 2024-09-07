@@ -4,7 +4,8 @@ class UserMiddleware {
   static async checkUnique(req, res, next) {
     try {
       const email = req.body.email;
-      const user = await User.findById({ email: email });
+      const user = await User.findOne({ email: email });
+
       if (user)
         return res.status(403).send({ error: 'you have already signup , please use sign in ' });
       else return next();
