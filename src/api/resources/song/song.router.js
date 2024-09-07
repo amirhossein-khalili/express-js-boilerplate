@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import SongController from './song.controller.js';
+import songController from './song.controller.js';
 import validateSchema from '../../../utils/validateSchema.utils.js';
 import newSongSchema from './song.validation.js';
 
@@ -12,14 +12,14 @@ class SongRouter {
   initializeRoutes() {
     this.router
       .route('/')
-      .get(SongController.findAll)
-      .post(validateSchema(newSongSchema), SongController.create);
+      .get(songController.findAll.bind(songController))
+      .post(validateSchema(newSongSchema), songController.create.bind(songController));
 
     this.router
       .route('/:id')
-      .get(SongController.findOne)
-      .patch(validateSchema(newSongSchema), SongController.edit)
-      .delete(SongController.destroy);
+      .get(songController.findOne.bind(songController))
+      .patch(validateSchema(newSongSchema), songController.edit.bind(songController))
+      .delete(songController.destroy.bind(songController));
   }
 }
 
