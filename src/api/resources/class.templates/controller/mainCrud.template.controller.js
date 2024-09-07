@@ -1,6 +1,6 @@
 class MainCrudTemplateController {
-  constructor(selectionAlls, selectionOne, Model) {
-    this.selectionAlls = selectionAlls;
+  constructor(selectionAll, selectionOne, Model) {
+    this.selectionAll = selectionAll;
     this.selectionOne = selectionOne;
     this.model = Model;
   }
@@ -11,7 +11,7 @@ class MainCrudTemplateController {
       const options = {
         page: parseInt(page, 10) || 1,
         limit: parseInt(perPage, 10) || 10,
-        select: this.selectionAlls,
+        select: this.selectionAll,
       };
 
       const items = await this.model.paginate({}, options);
