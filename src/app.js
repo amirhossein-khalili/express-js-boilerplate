@@ -5,6 +5,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import passport from 'passport';
 import dotenv, { config } from 'dotenv';
 dotenv.config();
+import errorHandlerMiddleware from './api/resources/class.templates/general/errorhandler.middleware.js';
 
 import swaggerConfig from './config/swagger.js';
 import { connect } from './config/db.js';
@@ -52,23 +53,24 @@ class Server {
     };
     const swaggerSpec = swaggerJsdoc(swaggerOptions);
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use(errorHandlerMiddleware);
 
-    // Error handling middleware
-    app.use((req, res, next) => {
-      const error = new Error('Not found');
-      error.status = 404;
-      next(error);
-    });
+    // // Error handling middleware
+    // app.use((req, res, next) => {
+    //   const error = new Error('Not found');
+    //   error.status = 404;
+    //   next(error);
+    // });
 
-    // Error handling middleware
-    app.use((error, req, res, next) => {
-      res.status(error.status || 500);
-      return res.json({ error: { message: error.message } });
-    });
+    // // Error handling middleware
+    // app.use((error, req, res, next) => {
+    //   res.status(error.status || 500);
+    //   return res.json({ error: { message: error.message } });
+    // });
   }
 
   initDB() {
-    connect(); //connect express app to database
+    connect();
   }
 }
 
