@@ -12,14 +12,14 @@ class SongRouter {
   initializeRoutes() {
     this.router
       .route('/')
-      .get(songController.findAll.bind(songController))
-      .post(validateSchema(newSongSchema), songController.create.bind(songController));
+      .get(songController.findAll)
+      .post(validateSchema(newSongSchema), songController.create);
 
     this.router
       .route('/:id')
-      .get(songController.findOne.bind(songController))
-      .patch(validateSchema(newSongSchema), songController.edit.bind(songController))
-      .delete(songController.destroy.bind(songController));
+      .get(songController.findOne)
+      .patch(validateSchema(newSongSchema), songController.edit)
+      .delete(songController.destroy);
   }
 }
 
