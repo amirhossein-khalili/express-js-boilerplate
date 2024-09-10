@@ -1,5 +1,8 @@
+import autoBind from 'auto-bind';
+
 class MainCrudTemplateController {
   constructor(selectionAll, selectionOne, Model) {
+    autoBind(this);
     this.selectionAll = selectionAll;
     this.selectionOne = selectionOne;
     this.model = Model;
